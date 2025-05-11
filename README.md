@@ -5,4 +5,4 @@ git clone url
 Step 2. Open the cloned project in VS Code editor and Install npm package manager
 npm install
 Step 3. Run the app
-nvm run dev
+npm run dev

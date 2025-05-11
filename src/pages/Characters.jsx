@@ -1,17 +1,19 @@
 import React, { use, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 const Characters = () => {
+  // Get the film ID from the route params
   const { id } = useParams();
+  // State to store character data
   const [characters, setCharacters] = useState([]);
 
   const navigate = useNavigate();
-
+  // Fetch character URLs for a given film, then fetch character details
   const getCharacterData = async (id) => {
     try {
       const response = await fetch(`https://www.swapi.tech/api/films/${id}`);
       const data = await response.json();
+      // Extract the first 5 character URLs for simplicity
       const characterUrls = data.result.properties.characters.slice(0, 5);
 
       const characterData = await Promise.all(
@@ -21,17 +23,15 @@ const Characters = () => {
           return data.result;
         })
       );
+      // Update state with fetched character data
       setCharacters(characterData);
-      console.log("data", data);
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  console.log(id);
   useEffect(() => {
     getCharacterData(id);
   }, []);
-  console.log(characters);
   return (
     <div className="container">
       <h2 className="heading text-center mt-5 mb-4">Characters Info</h2>
@@ -47,6 +47,7 @@ const Characters = () => {
             <th>Height</th>
           </tr>
         </thead>
+        {/* Loop through characters and display characters info */}
 
         {characters.map((character) => (
           <tbody key={character.uid}>
